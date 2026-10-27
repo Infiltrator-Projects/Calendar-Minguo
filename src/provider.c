@@ -80,12 +80,21 @@ arithmetic_add_years(const ResourceCalendar *provider,
 static const ResourceCalendar native = {
     RESOURCE_MODE, RESOURCE_KEYWORD, RESOURCE_OPERATIONS
 };
+/* The ICU-backed formatter and the arithmetic callbacks share this
+ * UTC-noon domain. Reject before narrowing extreme JDNs into civil fields. */
+static bool provider_jdn_supported(int64_t jdn)
+{
+    return jdn >= INT64_C(2440588) - INT64_C(100000000) &&
+           jdn <= INT64_C(2440588) + INT64_C(99999999);
+}
+
 static bool fields(const InfiltratrTemporalCalendarProvider *self,
     int64_t jdn, InfiltratrTemporalCalendarFields *result)
 {
     CalendarCalendarFields value;
     (void)self;
-    if (result == NULL || !native.fields_from_jdn(&native,jdn,&value))
+    if (result == NULL || !provider_jdn_supported(jdn) ||
+        !native.fields_from_jdn(&native,jdn,&value))
         return false;
     *result = (InfiltratrTemporalCalendarFields){
         value.year, value.month, value.day, value.auxiliary, value.special != FALSE };
@@ -98,7 +107,7 @@ static bool format(const InfiltratrTemporalCalendarProvider *self,
     gchar *text;
     CalendarCalendarFields validated_fields;
     (void)self;
-    if (buffer == NULL || capacity == 0U ||
+    if (buffer == NULL || capacity == 0U || !provider_jdn_supported(jdn) ||
         part < INFILTRATR_TEMPORAL_CALENDAR_DATE_PART_DAY ||
         part > INFILTRATR_TEMPORAL_CALENDAR_DATE_PART_FULL ||
         !native.fields_from_jdn(&native, jdn, &validated_fields))
@@ -121,7 +130,8 @@ static bool start(const InfiltratrTemporalCalendarProvider *self,
     if (result == NULL || !fields(self,jdn,&(InfiltratrTemporalCalendarFields){0}))
         return false;
     const int64_t candidate=native.period_start(&native,jdn);
-    if (!native.fields_from_jdn(&native,candidate,&value)) return false;
+    if (!provider_jdn_supported(candidate) ||
+        !native.fields_from_jdn(&native,candidate,&value)) return false;
     *result=candidate;
     return true;
 }
@@ -132,7 +142,8 @@ static bool navigate(const InfiltratrTemporalCalendarProvider *self,
     if (result == NULL || !fields(self,jdn,&(InfiltratrTemporalCalendarFields){0}))
         return false;
     const int64_t candidate=operation(&native,jdn,amount);
-    if (!native.fields_from_jdn(&native,candidate,&value)) return false;
+    if (!provider_jdn_supported(candidate) ||
+        !native.fields_from_jdn(&native,candidate,&value)) return false;
     *result=candidate;
     return true;
 }
