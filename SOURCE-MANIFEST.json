@@ -1,0 +1,406 @@
+{
+  "kind": "calendar",
+  "id": "minguo",
+  "name": "Republic of China Minguo Calendar",
+  "repository": "Calendar-Minguo",
+  "defines": {
+    "INFILTRATR_TEMPORAL_DISPLAY_NAME": "\"Republic of China Minguo Calendar\"",
+    "RESOURCE_MINGUO": "1",
+    "RESOURCE_FAMILY_ARITHMETIC": "1"
+  },
+  "mode": "CALENDAR_CALENDAR_MODE_MINGUO",
+  "entry": "resources/temporal/src/calendars/native-calendar.c",
+  "family": "ARITHMETIC",
+  "build_dependencies": [
+    "glib-2.0",
+    "icu-i18n"
+  ],
+  "upstream_repository": "Infiltrator-Projects/Libraries",
+  "upstream_revision": "8d60662114e3052380f6f88ad3cacd9732ae7131",
+  "upstream_version": "1.19.78",
+  "source_copy_only": true,
+  "common_modified": false,
+  "files": [
+    {
+      "path": "include/infiltratr/arithmetic.h",
+      "source_path": "include/infiltratr/arithmetic.h",
+      "source_sha256": "2996d929aa5773100d900082c913eca2ed4cbb4e861489a4072e26cecabda755",
+      "copied_sha256": "2996d929aa5773100d900082c913eca2ed4cbb4e861489a4072e26cecabda755",
+      "selected_definitions": []
+    },
+    {
+      "path": "include/infiltratr/compiler.h",
+      "source_path": "include/infiltratr/compiler.h",
+      "source_sha256": "de6a07988f74cf61f9bc7d7e19ed689a2d867272220a0ea3cda75e411e85d45b",
+      "copied_sha256": "de6a07988f74cf61f9bc7d7e19ed689a2d867272220a0ea3cda75e411e85d45b",
+      "selected_definitions": [
+        "INFILTRATR_UNLIKELY"
+      ]
+    },
+    {
+      "path": "include/infiltratr/config.h",
+      "source_path": "include/infiltratr/config.h",
+      "source_sha256": "04000be4c547669653fb8658472d49caacc42040fac33d0718afd19d0dafc589",
+      "copied_sha256": "04000be4c547669653fb8658472d49caacc42040fac33d0718afd19d0dafc589",
+      "selected_definitions": []
+    },
+    {
+      "path": "include/infiltratr/core.h",
+      "source_path": "include/infiltratr/core.h",
+      "source_sha256": "597cbae9f966d8bb59d0ed7afa969d331d6f9140e06b748c53b5793ab2804ba0",
+      "copied_sha256": "597cbae9f966d8bb59d0ed7afa969d331d6f9140e06b748c53b5793ab2804ba0",
+      "selected_definitions": [
+        "INFILTRATR_ARRAY_LENGTH"
+      ]
+    },
+    {
+      "path": "include/infiltratr/dynlib.h",
+      "source_path": "include/infiltratr/dynlib.h",
+      "source_sha256": "d53ad6b2a9e27ed1463d79fb45698404614c2f533ae8fa428326252b74137ca8",
+      "copied_sha256": "d53ad6b2a9e27ed1463d79fb45698404614c2f533ae8fa428326252b74137ca8",
+      "selected_definitions": []
+    },
+    {
+      "path": "include/infiltratr/format.h",
+      "source_path": "include/infiltratr/format.h",
+      "source_sha256": "c43c73ac5fc38ee1e5fa3d4b01acace433b6616f2c1e326fc00a6d62c1f94cc3",
+      "copied_sha256": "c43c73ac5fc38ee1e5fa3d4b01acace433b6616f2c1e326fc00a6d62c1f94cc3",
+      "selected_definitions": []
+    },
+    {
+      "path": "include/infiltratr/temporal.h",
+      "source_path": "include/infiltratr/temporal.h",
+      "source_sha256": "bf212e14f7c553ce7b6f36c552ab696dcdedeebed3a61fe34b45b39881e3f539",
+      "copied_sha256": "bf212e14f7c553ce7b6f36c552ab696dcdedeebed3a61fe34b45b39881e3f539",
+      "selected_definitions": []
+    },
+    {
+      "path": "include/infiltratr/temporal_calendar.h",
+      "source_path": "include/infiltratr/temporal_calendar.h",
+      "source_sha256": "945ad244cdbc86cd563d9343e2f9fb1c32520f76f9aa85b88634138fccafdc3a",
+      "copied_sha256": "945ad244cdbc86cd563d9343e2f9fb1c32520f76f9aa85b88634138fccafdc3a",
+      "selected_definitions": [
+        "INFILTRATR_TEMPORAL_CALENDAR_PROVIDER_ABI"
+      ]
+    },
+    {
+      "path": "include/infiltratr/temporal_id.h",
+      "source_path": "include/infiltratr/temporal_id.h",
+      "source_sha256": "de7b35addae159fcde873990908e32c1a8e040b6cdaee2a041bda5b6ea6e8bd0",
+      "copied_sha256": "de7b35addae159fcde873990908e32c1a8e040b6cdaee2a041bda5b6ea6e8bd0",
+      "selected_definitions": []
+    },
+    {
+      "path": "include/infiltratr/temporal_resource.h",
+      "source_path": "include/infiltratr/temporal_resource.h",
+      "source_sha256": "7ce225d7b2c6721b7d56fc152f68c4c680f6a7d068db26a5942fe2f3b583512d",
+      "copied_sha256": "7ce225d7b2c6721b7d56fc152f68c4c680f6a7d068db26a5942fe2f3b583512d",
+      "selected_definitions": []
+    },
+    {
+      "path": "include/infiltratr/temporal_runtime.h",
+      "source_path": "include/infiltratr/temporal_runtime.h",
+      "source_sha256": "6b5c52a266b53b5ceaafe048532c282a7e96fe64c3a1381a13c35c161629ba67",
+      "copied_sha256": "6b5c52a266b53b5ceaafe048532c282a7e96fe64c3a1381a13c35c161629ba67",
+      "selected_definitions": [
+        "INFILTRATR_TEMPORAL_RESOURCE_METADATA_ABI"
+      ]
+    },
+    {
+      "path": "include/infiltratr/timing.h",
+      "source_path": "include/infiltratr/timing.h",
+      "source_sha256": "896f287ea9b03b30f7a995be3442bc020a6cccff8a5ba9a98390aa48e428642b",
+      "copied_sha256": "896f287ea9b03b30f7a995be3442bc020a6cccff8a5ba9a98390aa48e428642b",
+      "selected_definitions": []
+    },
+    {
+      "path": "include/infiltratr/token.h",
+      "source_path": "include/infiltratr/token.h",
+      "source_sha256": "a1f058b6a9c3c64a716bc5ca577f7dbf9d2bed3dca4f60f093c20c5bba5f474d",
+      "copied_sha256": "a1f058b6a9c3c64a716bc5ca577f7dbf9d2bed3dca4f60f093c20c5bba5f474d",
+      "selected_definitions": []
+    },
+    {
+      "path": "src/calendars/catalogue.h",
+      "source_path": "resources/temporal/src/calendars/catalogue.h",
+      "source_sha256": "9ec47966ec7637ada4650cc96c51b17ec791d4758a91fc3fbe935f2947cd7f57",
+      "copied_sha256": "4b7ac1b79bba304cd0d3b289dfa959fabb228f815ce66cb4e94deade28964340",
+      "selected_definitions": [
+        "RESOURCE_ID",
+        "RESOURCE_KEYWORD",
+        "RESOURCE_MODE"
+      ]
+    },
+    {
+      "path": "src/calendars/engine/calendar-arithmetic-internal.h",
+      "source_path": "resources/temporal/src/calendars/engine/calendar-arithmetic-internal.h",
+      "source_sha256": "b25cd899bf409c5cd605ab0ab3a0bae2184961e756e24b5bdb8a4414f3427339",
+      "copied_sha256": "b25cd899bf409c5cd605ab0ab3a0bae2184961e756e24b5bdb8a4414f3427339",
+      "selected_definitions": []
+    },
+    {
+      "path": "src/calendars/engine/calendar-arithmetic.c",
+      "source_path": "resources/temporal/src/calendars/engine/calendar-arithmetic.c",
+      "source_sha256": "e2e7ad95f802ccd5d383df3aa1a50253329163f40ba3cb49c2ed09c0dfaee1c9",
+      "copied_sha256": "51345e933cd95f0684014d3d9a42ef82f4eb8cdc9b914cdd29256993a97a2637",
+      "selected_definitions": [
+        "arithmetic_mode_supported",
+        "calendar_arithmetic_add_months",
+        "calendar_arithmetic_add_years",
+        "calendar_arithmetic_fields_from_jdn",
+        "calendar_arithmetic_month_start",
+        "fields_to_jdn",
+        "month_length",
+        "periods_per_year",
+        "set_signed_year",
+        "signed_year_from_fields"
+      ]
+    },
+    {
+      "path": "src/calendars/engine/calendar-arithmetic.h",
+      "source_path": "resources/temporal/src/calendars/engine/calendar-arithmetic.h",
+      "source_sha256": "6224fee66f991c5ed47960d52a2dcebb66225b21f66a85786ba50196405e8a6c",
+      "copied_sha256": "6224fee66f991c5ed47960d52a2dcebb66225b21f66a85786ba50196405e8a6c",
+      "selected_definitions": []
+    },
+    {
+      "path": "src/calendars/engine/calendar-custom.h",
+      "source_path": "resources/temporal/src/calendars/engine/calendar-custom.h",
+      "source_sha256": "5f16ffa8cc349c9d332913e2c38dc7e52e971052751b87d948411a3099fd8710",
+      "copied_sha256": "5f16ffa8cc349c9d332913e2c38dc7e52e971052751b87d948411a3099fd8710",
+      "selected_definitions": []
+    },
+    {
+      "path": "src/calendars/engine/calendar-engine-types.h",
+      "source_path": "resources/temporal/src/calendars/engine/calendar-engine-types.h",
+      "source_sha256": "41239f68f166cdd629df0af40a8cf20c4217d59c23d6cf1e3fdb24371b5d790a",
+      "copied_sha256": "a8708c34d7899f3dc93bbbea6dbec719d3087abb8803f8ac8824580ee9be41a4",
+      "selected_definitions": []
+    },
+    {
+      "path": "src/calendars/engine/calendar-historical.h",
+      "source_path": "resources/temporal/src/calendars/engine/calendar-historical.h",
+      "source_sha256": "b9bc8f93ab33dfe0e2162a04088ff064e04099a92fbdcbecf169035e057a456e",
+      "copied_sha256": "b9bc8f93ab33dfe0e2162a04088ff064e04099a92fbdcbecf169035e057a456e",
+      "selected_definitions": []
+    },
+    {
+      "path": "src/calendars/engine/calendar-swedish.h",
+      "source_path": "resources/temporal/src/calendars/engine/calendar-swedish.h",
+      "source_sha256": "33d2214c5bb620a5017aed646bc89b7c07a4a5d1a2218e77d8e57b969b80d3d1",
+      "copied_sha256": "33d2214c5bb620a5017aed646bc89b7c07a4a5d1a2218e77d8e57b969b80d3d1",
+      "selected_definitions": []
+    },
+    {
+      "path": "src/calendars/engine/icu-calendar.c",
+      "source_path": "resources/temporal/src/calendars/engine/icu-calendar.c",
+      "source_sha256": "48e753f455c0147fe6ab0522ae3a157ac4a9b77a8e0e618d6db1dd53dcf0aaa4",
+      "copied_sha256": "eae97dae90bd141ef9596c875ca8390faa849d0fb127ae5fb4e2e7caf949d83b",
+      "selected_definitions": [
+        "ICU_MAX_DAY_OFFSET",
+        "ICU_MIN_DAY_OFFSET",
+        "MILLISECONDS_PER_DAY",
+        "PROLEPTIC_GREGORIAN_CUTOVER",
+        "calendar_icu_format",
+        "jdn_to_udate",
+        "make_icu_locale",
+        "open_icu_calendar",
+        "pattern_for_part",
+        "utc_zone",
+        "utf16_to_utf8"
+      ]
+    },
+    {
+      "path": "src/calendars/engine/icu-calendar.h",
+      "source_path": "resources/temporal/src/calendars/engine/icu-calendar.h",
+      "source_sha256": "70db993a445e6521412efae706a76b480d01ed0a9f9d7cb328ad7737464dab0c",
+      "copied_sha256": "70db993a445e6521412efae706a76b480d01ed0a9f9d7cb328ad7737464dab0c",
+      "selected_definitions": []
+    },
+    {
+      "path": "src/calendars/engine/icu-compat-bridge.c",
+      "source_path": "resources/temporal/src/calendars/engine/icu-compat-bridge.c",
+      "source_sha256": "db4cfffe976993833e512669f4d537785aeb67b022d434ddcd0f3b89e4342dee",
+      "copied_sha256": "a28f70f11a069edcdd5136e30a04a62b69c06dfb1eca26b5036adf9fa42d9f0d",
+      "selected_definitions": [
+        "bridge_once",
+        "close_bridge_modules",
+        "get_bridge",
+        "initialise_bridge",
+        "initialise_bridge_windows",
+        "load_symbol",
+        "set_missing",
+        "try_icu_major",
+        "u_strFromUTF8",
+        "u_strToUTF8",
+        "ucal_close",
+        "ucal_open",
+        "ucal_setGregorianChange",
+        "udat_close",
+        "udat_format",
+        "udat_open",
+        "udat_setCalendar",
+        "uloc_setKeywordValue"
+      ]
+    },
+    {
+      "path": "src/provider.c",
+      "source_path": "resources/temporal/src/calendars/native-calendar.c",
+      "source_sha256": "51c2e0ed1cca19eafd3c35652bd1ebb24716f253f4c65041280a3a32f06ab3f9",
+      "copied_sha256": "fb74620194418d2c1d63852f27fea5282c055337005e68b1c3932d6e52b63df7",
+      "selected_definitions": [
+        "RESOURCE_EXPORT",
+        "RESOURCE_OPERATIONS",
+        "arithmetic_add_periods",
+        "arithmetic_add_years",
+        "arithmetic_fields",
+        "arithmetic_period_start",
+        "fields",
+        "format",
+        "icu_format",
+        "infiltratr_temporal_calendar_provider_v1",
+        "infiltratr_temporal_resource_metadata_v1",
+        "metadata",
+        "native",
+        "navigate",
+        "periods",
+        "provider",
+        "start",
+        "years"
+      ]
+    },
+    {
+      "path": "src/support/calendar-types.h",
+      "source_path": "resources/temporal/src/support/calendar-types.h",
+      "source_sha256": "fa402f455f64e0e623186b12a2a2536ee24850b5adb1e7627f4800627f32ead9",
+      "copied_sha256": "fa402f455f64e0e623186b12a2a2536ee24850b5adb1e7627f4800627f32ead9",
+      "selected_definitions": []
+    },
+    {
+      "path": "src/support/integer-math.h",
+      "source_path": "resources/temporal/src/support/integer-math.h",
+      "source_sha256": "c0f9b6d7fa563af8bdb9bab4178ab7d1553852912bd41129ec86d0129841e2e8",
+      "copied_sha256": "c0f9b6d7fa563af8bdb9bab4178ab7d1553852912bd41129ec86d0129841e2e8",
+      "selected_definitions": [
+        "calendar_floor_divide",
+        "calendar_i64_add_saturating",
+        "calendar_i64_multiply_saturating",
+        "calendar_i64_subtract_saturating",
+        "calendar_positive_modulo"
+      ]
+    },
+    {
+      "path": "src/support/julian-day.c",
+      "source_path": "resources/temporal/src/support/julian-day.c",
+      "source_sha256": "832024153d827129573b6a4f80bcb863086a38587e9bb14ad8f26a0e600d7da9",
+      "copied_sha256": "95d434f79973c52934409e2ac345351e72deb03df0eb45d572effcc4c84c4419",
+      "selected_definitions": [
+        "calendar_gregorian_month_length",
+        "calendar_gregorian_to_jdn",
+        "calendar_jdn_to_gregorian"
+      ]
+    },
+    {
+      "path": "src/support/julian-day.h",
+      "source_path": "resources/temporal/src/support/julian-day.h",
+      "source_sha256": "9afe6171e899f90ce8abe36aff9b2443758464e4fb6664bdc61816d9afd23d11",
+      "copied_sha256": "9afe6171e899f90ce8abe36aff9b2443758464e4fb6664bdc61816d9afd23d11",
+      "selected_definitions": [
+        "CALENDAR_UNIX_EPOCH_JDN"
+      ]
+    },
+    {
+      "path": "src/support/resource-types.h",
+      "source_path": "resources/temporal/src/support/resource-types.h",
+      "source_sha256": "001bfb36714feb3b4ac01776c538662c215474cbd2007020a1b2045b49ee900b",
+      "copied_sha256": "001bfb36714feb3b4ac01776c538662c215474cbd2007020a1b2045b49ee900b",
+      "selected_definitions": []
+    },
+    {
+      "path": "src/arithmetic.c",
+      "source_path": "src/arithmetic.c",
+      "source_sha256": "091424ec46debe738acee7ac700ea2026ea108598807f04ae0282d4cd3d7cab9",
+      "copied_sha256": "138fbd8fa4d19d145a5e9f9eea255d46150c8af8527a688cc952c445de2640ac",
+      "selected_definitions": [
+        "infiltratr_i64_add_checked",
+        "infiltratr_i64_add_saturating",
+        "infiltratr_i64_floor_divmod",
+        "infiltratr_i64_multiply_checked",
+        "infiltratr_i64_multiply_saturating",
+        "infiltratr_i64_subtract_saturating",
+        "infiltratr_size_add_checked",
+        "infiltratr_size_multiply_checked"
+      ]
+    },
+    {
+      "path": "src/ascii_internal.h",
+      "source_path": "src/ascii_internal.h",
+      "source_sha256": "100ab0e1b7ac7d73a81d16f31cc0cef08e278a2a492ee5ba2a5cf97011a9631d",
+      "copied_sha256": "100ab0e1b7ac7d73a81d16f31cc0cef08e278a2a492ee5ba2a5cf97011a9631d",
+      "selected_definitions": []
+    },
+    {
+      "path": "src/core.c",
+      "source_path": "src/core.c",
+      "source_sha256": "482e4ea026ab865e377de52693194c0faaf916b0b42ae894b16a579e296a8b9a",
+      "copied_sha256": "80cecb1a805e905b3b2c9fd8e796ae0b3df9f354c503f0bdd9cb6e61afd646ae",
+      "selected_definitions": [
+        "infiltratr_copy_string",
+        "infiltratr_string_equal"
+      ]
+    },
+    {
+      "path": "src/dynlib.c",
+      "source_path": "src/dynlib.c",
+      "source_sha256": "bc08633507089702fe8c37690fa0ff8c56c0cce61d0af7f407144e15bcc7fff4",
+      "copied_sha256": "e995729a1a6fb86b55a01fc65946d725042858ee0462777f8f8d7e05b4ca862e",
+      "selected_definitions": [
+        "infiltratr_dynlib_close",
+        "infiltratr_dynlib_is_open",
+        "infiltratr_dynlib_open",
+        "infiltratr_dynlib_symbol",
+        "utf8_library_name"
+      ]
+    },
+    {
+      "path": "src/temporal.c",
+      "source_path": "src/temporal.c",
+      "source_sha256": "434ef54e0e09469a6f6075dabb2b4cb21d8d1f218fd0a603443368f1f81609a1",
+      "copied_sha256": "c6b15cc925776c8213ba3bdabb5f21199dfbd747e65bebf329c151c07f61f348",
+      "selected_definitions": [
+        "infiltratr_temporal_gregorian_is_leap",
+        "infiltratr_temporal_gregorian_month_length",
+        "infiltratr_temporal_gregorian_to_jdn",
+        "infiltratr_temporal_jdn_to_gregorian",
+        "temporal_coordinate_floor",
+        "temporal_coordinate_modulo"
+      ]
+    },
+    {
+      "path": "exports.map",
+      "source_path": "resources/temporal/src/calendars/calendar-resource.map",
+      "source_sha256": "5207fffbf1612bcb5a58bc02db60240b31eb7ae45d3af1d195cc545c9530854f",
+      "copied_sha256": "5207fffbf1612bcb5a58bc02db60240b31eb7ae45d3af1d195cc545c9530854f",
+      "selected_definitions": []
+    },
+    {
+      "path": "LICENSE",
+      "source_path": "LICENSE",
+      "source_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "copied_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "selected_definitions": []
+    }
+  ],
+  "copy_method": "Select this provider in the original conditional source, specialize private dispatch branches, retain reachable provider/helper definitions, and copy the transitive local headers. Original functions and data remain attributed to Common.",
+  "verification": {
+    "repository": "Calendar-Minguo",
+    "compared_observations": 883,
+    "retained_fixtures": 84,
+    "exports": [
+      "infiltratr_temporal_calendar_provider_v1",
+      "infiltratr_temporal_resource_metadata_v1"
+    ],
+    "abi_identical": true,
+    "behaviour_identical": true
+  }
+}
