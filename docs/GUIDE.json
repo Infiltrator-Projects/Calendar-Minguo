@@ -1,0 +1,78 @@
+{
+  "title": "Republic of China Minguo Calendar",
+  "intro": "The Minguo or Republic of China calendar uses ordinary Gregorian months and days but numbers years from the founding of the Republic of China.",
+  "summary": "Twelve Gregorian months; 1912 is Minguo year 1. The year 2026 is Minguo year 115.",
+  "origin": "Republic of China era numbering begins in 1912. The convention is particularly familiar on dates and official records in Taiwan.",
+  "ring_label": "12",
+  "ring_caption": "MONTHS",
+  "diagram_title": "THE YEAR WITH A NEW NUMBER",
+  "structure": "Month lengths and leap-day rules are the same as in the Gregorian calendar. Only the year label changes.",
+  "diagram_caption": "12 GREGORIAN MONTHS / MINGUO ERA NUMBER",
+  "sections": [
+    {
+      "name": "Jan",
+      "days": "31",
+      "special": true
+    },
+    {
+      "name": "Feb",
+      "days": "28/29",
+      "special": false
+    },
+    {
+      "name": "Mar",
+      "days": "31",
+      "special": false
+    },
+    {
+      "name": "Apr",
+      "days": "30",
+      "special": false
+    },
+    {
+      "name": "May",
+      "days": "31",
+      "special": false
+    },
+    {
+      "name": "Jun",
+      "days": "30",
+      "special": false
+    },
+    {
+      "name": "Jul",
+      "days": "31",
+      "special": false
+    },
+    {
+      "name": "Aug",
+      "days": "31",
+      "special": false
+    },
+    {
+      "name": "Sep",
+      "days": "30",
+      "special": false
+    },
+    {
+      "name": "Oct",
+      "days": "31",
+      "special": false
+    },
+    {
+      "name": "Nov",
+      "days": "30",
+      "special": false
+    },
+    {
+      "name": "Dec",
+      "days": "31",
+      "special": false
+    }
+  ],
+  "pattern_note": "A Minguo year can be found by subtracting 1911 from a Gregorian year for dates from 1912 onward.",
+  "history": "The Republic of China established a new national era count in 1912. Both Gregorian and Minguo labels may be encountered in records from Taiwan.",
+  "example": "15 June 2026 in Gregorian notation is 15 June Minguo 115. The month, day and weekday are unchanged.",
+  "limits": "This is era-year notation, not a separate lunar month system. Retrospective labels for years before the Republic should not be mistaken for historical official dates.",
+  "source": "https://github.com/Infiltrator-Projects/Calendar-Minguo"
+}
