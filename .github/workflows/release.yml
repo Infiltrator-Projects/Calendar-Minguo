@@ -53,6 +53,35 @@ jobs:
                       'assets': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}}
           Path('dist/contract.json').write_text(json.dumps(contract, indent=2) + '\n')
           PY
+
+      - name: Verify portable and installed native packages contain exactly one SO and one PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          packages=(dist/*.deb)
+          test "${#packages[@]}" -eq 1
+          pkg=$(dpkg-deb -f "${packages[0]}" Package)
+          stage=$(mktemp -d)
+          trap 'rm -rf "$stage"' EXIT
+          dpkg-deb -x "${packages[0]}" "$stage"
+          mapfile -d '' -t payload < <(find "$stage" ! -type d -print0)
+          test "${#payload[@]}" -eq 2
+          mapfile -d '' -t portable_so < <(find "$stage/System/Resources/Calendars" -type f -name '*.so' -print0)
+          mapfile -d '' -t portable_pdf < <(find "$stage/System/Resources/Documentation" -type f -name '*.pdf' -print0)
+          test "${#portable_so[@]}" -eq 1
+          test "${#portable_pdf[@]}" -eq 1
+          test "$(head -c 5 "${portable_pdf[0]}")" = '%PDF-'
+          test "$(basename "${portable_so[0]}" .so)" = "$(basename "${portable_pdf[0]}" .pdf)"
+          mapfile -t installed < <(dpkg-query -L "$pkg" | while IFS= read -r path; do
+            if [[ -f "$path" || -L "$path" ]]; then printf '%s\n' "$path"; fi
+          done)
+          test "${#installed[@]}" -eq 2
+          mapfile -t native_so < <(printf '%s\n' "${installed[@]}" | grep -E '^/System/Resources/Calendars/.+\.so$')
+          mapfile -t native_pdf < <(printf '%s\n' "${installed[@]}" | grep -E '^/System/Resources/Documentation/[^/]+/[^/]+\.pdf$')
+          test "${#native_so[@]}" -eq 1
+          test "${#native_pdf[@]}" -eq 1
+          test "$(head -c 5 "${native_pdf[0]}")" = '%PDF-'
+          test "$(basename "${native_so[0]}" .so)" = "$(basename "${native_pdf[0]}" .pdf)"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: provider-qualified-${{ github.sha }}
