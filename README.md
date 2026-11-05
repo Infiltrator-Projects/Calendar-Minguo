@@ -48,4 +48,4 @@ Each package owns only this provider and its passive documentation. Its `Replace
 
 ## Illustrated user guide
 
-The provider package installs only `Republic of China Minguo Calendar.so` and `Republic of China Minguo Calendar.pdf`. Development documents remain in GitHub; native optimisation and source attestations remain in Debian control metadata.
+The provider package installs only `Republic of China Minguo Calendar.so` and `Calendar-Minguo.pdf`. Development documents remain in GitHub; native optimisation and source attestations remain in Debian control metadata.

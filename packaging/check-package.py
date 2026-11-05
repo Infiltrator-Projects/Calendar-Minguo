@@ -13,7 +13,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 manifest = json.loads((ROOT / "SOURCE-MANIFEST.json").read_text())
 resource = Path("System/Resources") / ("Calendars" if manifest["kind"] == "calendar" else "Clocks") / (manifest["name"] + ".so")
-documentation = Path("System/Resources/Documentation") / manifest["repository"]
+documentation = Path("System/Resources/Documentation") / (manifest["repository"] + ".pdf")
 package, profile = Path(sys.argv[1]).resolve(), sys.argv[2]
 expected = "infiltrator-" + manifest["repository"].lower()
 assert subprocess.check_output(["dpkg-deb", "-f", package, "Package"], text=True).strip() == expected
@@ -23,8 +23,9 @@ with tempfile.TemporaryDirectory(prefix="provider-payload-") as temporary:
     root = Path(temporary)
     subprocess.run(["dpkg-deb", "--extract", package, root], check=True)
     files = [p for p in root.rglob("*") if not p.is_dir()]
+    assert not any(p.is_dir() for p in (root / "System/Resources/Documentation").iterdir())
     assert len(files) == 2, [str(p.relative_to(root)) for p in files]
-    guide = documentation / (manifest["name"] + ".pdf")
+    guide = documentation
     for file in files:
         relative = file.relative_to(root)
         assert not file.is_symlink()

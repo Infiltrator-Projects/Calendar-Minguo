@@ -38,7 +38,7 @@ jobs:
           manifest = json.loads(Path('SOURCE-MANIFEST.json').read_text())
           import subprocess
           library = Path('/System/Resources') / ('Calendars' if manifest['kind'] == 'calendar' else 'Clocks') / (manifest['name'] + '.so')
-          guide = Path('/System/Resources/Documentation') / manifest['repository'] / (manifest['name'] + '.pdf')
+          guide = Path('/System/Resources/Documentation') / (manifest['repository'] + '.pdf')
           assert guide.read_bytes().startswith(b'%PDF-')
           package = 'infiltrator-' + manifest['repository'].lower()
           def field(k):
@@ -71,17 +71,18 @@ jobs:
           test "${#portable_so[@]}" -eq 1
           test "${#portable_pdf[@]}" -eq 1
           test "$(head -c 5 "${portable_pdf[0]}")" = '%PDF-'
-          test "$(basename "${portable_so[0]}" .so)" = "$(basename "${portable_pdf[0]}" .pdf)"
+          expected_pdf=$(python3 -c 'import json; print(json.load(open("SOURCE-MANIFEST.json"))["repository"] + ".pdf")')
+          test "$(basename "${portable_pdf[0]}")" = "$expected_pdf"
           mapfile -t installed < <(dpkg-query -L "$pkg" | while IFS= read -r path; do
             if [[ -f "$path" || -L "$path" ]]; then printf '%s\n' "$path"; fi
           done)
           test "${#installed[@]}" -eq 2
           mapfile -t native_so < <(printf '%s\n' "${installed[@]}" | grep -E '^/System/Resources/Calendars/.+\.so$')
-          mapfile -t native_pdf < <(printf '%s\n' "${installed[@]}" | grep -E '^/System/Resources/Documentation/[^/]+/[^/]+\.pdf$')
+          mapfile -t native_pdf < <(printf '%s\n' "${installed[@]}" | grep -E '^/System/Resources/Documentation/[^/]+\.pdf$')
           test "${#native_so[@]}" -eq 1
           test "${#native_pdf[@]}" -eq 1
           test "$(head -c 5 "${native_pdf[0]}")" = '%PDF-'
-          test "$(basename "${native_so[0]}" .so)" = "$(basename "${native_pdf[0]}" .pdf)"
+          test "$(basename "${native_pdf[0]}")" = "$expected_pdf"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: provider-qualified-${{ github.sha }}
