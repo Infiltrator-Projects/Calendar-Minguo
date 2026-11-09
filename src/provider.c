@@ -28,10 +28,8 @@ icu_format(const ResourceCalendar *provider,
            gint64 jdn,
            CalendarDatePart part)
 {
-    const ResourceCalendar *builtin = provider;
-
     return calendar_icu_format(
-        builtin->mode, builtin->icu_keyword, jdn, part);
+        provider->mode, provider->icu_keyword, jdn, part);
 }
 
 static gboolean
@@ -39,19 +37,15 @@ arithmetic_fields(const ResourceCalendar *provider,
                   gint64 jdn,
                   CalendarCalendarFields *fields)
 {
-    const ResourceCalendar *builtin = provider;
-
     return calendar_arithmetic_fields_from_jdn(
-        builtin->mode, jdn, fields);
+        provider->mode, jdn, fields);
 }
 
 static gint64
 arithmetic_period_start(const ResourceCalendar *provider,
                         gint64 jdn)
 {
-    const ResourceCalendar *builtin = provider;
-
-    return calendar_arithmetic_month_start(builtin->mode, jdn);
+    return calendar_arithmetic_month_start(provider->mode, jdn);
 }
 
 static gint64
@@ -59,10 +53,8 @@ arithmetic_add_periods(const ResourceCalendar *provider,
                        gint64 jdn,
                        gint amount)
 {
-    const ResourceCalendar *builtin = provider;
-
     return calendar_arithmetic_add_months(
-        builtin->mode, jdn, amount);
+        provider->mode, jdn, amount);
 }
 
 static gint64
@@ -70,10 +62,8 @@ arithmetic_add_years(const ResourceCalendar *provider,
                      gint64 jdn,
                      gint amount)
 {
-    const ResourceCalendar *builtin = provider;
-
     return calendar_arithmetic_add_years(
-        builtin->mode, jdn, amount);
+        provider->mode, jdn, amount);
 }
 
 #define RESOURCE_OPERATIONS arithmetic_fields, icu_format, arithmetic_period_start, arithmetic_add_periods, arithmetic_add_years
