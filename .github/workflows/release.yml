@@ -16,43 +16,42 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Initialise pinned Common source
+        run: git submodule update --init -- common
       - name: Install build prerequisites
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential binutils pkg-config libglib2.0-dev libicu-dev python3 python3-reportlab
-      - name: Build and qualify the portable release and exact native installer
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential binutils pkg-config libglib2.0-dev libicu-dev jq ghostscript zip gzip gettext
+      - name: Build and qualify portable and native providers without Python
         shell: bash
         run: |
           set -euo pipefail
-          python3 packaging/release.py release
-          python3 packaging/check-package.py dist/*.deb portable
-          sudo python3 packaging/check-upgrade.py dist/*.deb
+          make check
+          make release
+          bash common/calendar-tools/check-package.sh dist/*.deb portable
+          sudo bash common/calendar-tools/check-upgrade.sh dist/*.deb
           installer=$(realpath dist/*.run)
           "$installer" --help
           sudo "$installer" --profile aggressive --system-package-mode
-          package=$(python3 -c 'import json; print("infiltrator-" + json.load(open("SOURCE-MANIFEST.json"))["repository"].lower())')
+          package="infiltrator-$(jq -r '.repository | ascii_downcase' SOURCE-MANIFEST.json)"
           test "$(dpkg-query -W -f='${Status}' "$package")" = 'install ok installed'
           version=$(cat VERSION)
           test "$(dpkg-query -W -f='${Version}' "$package")" = "$version+native1"
-          python3 - <<'PY'
-          import hashlib, json, os
-          from pathlib import Path
-          manifest = json.loads(Path('SOURCE-MANIFEST.json').read_text())
-          import subprocess
-          library = Path('/System/Resources') / ('Calendars' if manifest['kind'] == 'calendar' else 'Clocks') / (manifest['name'] + '.so')
-          guide = Path('/System/Resources/Documentation') / (manifest['repository'] + '.pdf')
-          assert guide.read_bytes().startswith(b'%PDF-')
-          package = 'infiltrator-' + manifest['repository'].lower()
-          def field(k):
-              return subprocess.check_output(['dpkg-query', '-W', '-f=${' + k + '}', package], text=True).strip()
-          assert field('X-Infiltrator-Native-Profile') == 'aggressive'
-          assert field('X-Infiltrator-PGO') == 'trained-two-pass'
-          assert field('X-Infiltrator-Resource-SHA256') == hashlib.sha256(library.read_bytes()).hexdigest()
-          assert len(subprocess.check_output(['dpkg-query','-L',package],text=True).splitlines()) >= 2
-          paths = sorted(Path('dist').iterdir())
-          assert len(paths) == 3
-          contract = {'commit': os.environ['GITHUB_SHA'], 'version': Path('VERSION').read_text().strip(), 'name': manifest['name'],
-                      'assets': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}}
-          Path('dist/contract.json').write_text(json.dumps(contract, indent=2) + '\n')
-          PY
+          test "$(dpkg-query -W -f='${X-Infiltrator-Native-Profile}' "$package")" = aggressive
+          test "$(dpkg-query -W -f='${X-Infiltrator-PGO}' "$package")" = trained-two-pass
+          resource_name=$(jq -r .name SOURCE-MANIFEST.json)
+          repository=$(jq -r .repository SOURCE-MANIFEST.json)
+          so="/System/Resources/Calendars/$resource_name.so"
+          pdf="/System/Resources/Documentation/$repository.pdf"
+          test -f "$so" && test -f "$pdf"
+          test "$(head -c 5 "$pdf")" = '%PDF-'
+          test "$(sha256sum "$so" | cut -d' ' -f1)" = "$(dpkg-query -W -f='${X-Infiltrator-Resource-SHA256}' "$package")"
+          assets=(dist/*.deb dist/*.run dist/*.zip)
+          test "${#assets[@]}" -eq 3
+          jq -n \
+            --arg commit "$GITHUB_SHA" --arg version "$version" --arg name "$resource_name" \
+            --arg deb "$(basename "${assets[0]}")" --arg debsha "$(sha256sum "${assets[0]}" | cut -d' ' -f1)" \
+            --arg run "$(basename "${assets[1]}")" --arg runsha "$(sha256sum "${assets[1]}" | cut -d' ' -f1)" \
+            --arg zip "$(basename "${assets[2]}")" --arg zipsha "$(sha256sum "${assets[2]}" | cut -d' ' -f1)" \
+            '{commit:$commit,version:$version,name:$name,assets:{($deb):$debsha,($run):$runsha,($zip):$zipsha}}' > dist/contract.json
 
       - name: Verify portable and installed native packages contain exactly one SO and one PDF
         shell: bash
@@ -71,7 +70,7 @@ jobs:
           test "${#portable_so[@]}" -eq 1
           test "${#portable_pdf[@]}" -eq 1
           test "$(head -c 5 "${portable_pdf[0]}")" = '%PDF-'
-          expected_pdf=$(python3 -c 'import json; print(json.load(open("SOURCE-MANIFEST.json"))["repository"] + ".pdf")')
+          expected_pdf="$(jq -r .repository SOURCE-MANIFEST.json).pdf"
           test "$(basename "${portable_pdf[0]}")" = "$expected_pdf"
           mapfile -t installed < <(dpkg-query -L "$pkg" | while IFS= read -r path; do
             if [[ -f "$path" || -L "$path" ]]; then printf '%s\n' "$path"; fi
@@ -106,4 +105,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-        run: python3 packaging/publish.py
+        run: bash packaging/publish.sh
