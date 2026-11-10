@@ -69,8 +69,7 @@ verify() {
   mkdir -p "$tmp/download"
   gh release download "$tag" --dir "$tmp/download"
   for file in "${assets[@]}"; do
-    [[ $(sha256sum "$tmp/download/$file" | cut -d' ' -f1) ==
-       $(jq -er --arg key "$file" '.assets[$key]' "$contract") ]] ||
+    [[ "$(sha256sum "$tmp/download/$file" | cut -d' ' -f1)" == "$(jq -er --arg key "$file" '.assets[$key]' "$contract")" ]] ||
        { echo "Published asset differs: $file" >&2; return 1; }
   done
 }
