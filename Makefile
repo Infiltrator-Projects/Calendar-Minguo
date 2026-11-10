@@ -14,6 +14,7 @@ DEPENDENCIES := glib-2.0 icu-i18n
 SOURCES := $(shell find src -type f -name '*.c' | LC_ALL=C sort)
 OBJECTS := $(patsubst src/%.c,$(BUILD_DIR)/obj/%.o,$(SOURCES))
 TARGET := $(BUILD_DIR)/$(RESOURCE_NAME).so
+TARGET_STAMP := $(BUILD_DIR)/.provider-built
 ifneq ($(strip $(DEPENDENCIES)),)
 DEP_CFLAGS := $(shell $(PKG_CONFIG) --cflags $(DEPENDENCIES))
 endif
@@ -44,15 +45,16 @@ $(BUILD_DIR)/obj/%.o: src/%.c Makefile | common-check
 	@mkdir -p "$(@D)"
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEP_CFLAGS) -MMD -MP -c "$<" -o "$@"
 .PHONY: all check audit-authorities clean
-all: $(TARGET)
-$(TARGET): $(OBJECTS) $(COMMON_ARCHIVE) exports.map Makefile
+all: $(TARGET_STAMP)
+$(TARGET_STAMP): $(OBJECTS) $(COMMON_ARCHIVE) exports.map Makefile
 	@mkdir -p "$(BUILD_DIR)"
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEP_CFLAGS) -shared $(OBJECTS) $(COMMON_ARCHIVE) \
 	    -Wl,--version-script=exports.map -Wl,-z,defs -Wl,--gc-sections \
 	    $(LDFLAGS) -o "$(TARGET)" $(LDLIBS)
-check: $(TARGET)
+	@touch "$@"
+check: $(TARGET_STAMP)
 	bash common/calendar-tools/check.sh "$(TARGET)"
-audit-authorities: $(TARGET)
+audit-authorities: $(TARGET_STAMP)
 	bash common/calendar-tools/check.sh "$(TARGET)" --authorities
 -include $(OBJECTS:.o=.d)
 clean:
