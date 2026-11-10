@@ -218,7 +218,7 @@
       "selected_definitions": []
     },
     {
-      "path": "src/calendars/engine/icu-compat-bridge.c",
+      "path": "common/calendar-tools/icu-compat-bridge.c",
       "source_path": "resources/temporal/src/calendars/engine/icu-compat-bridge.c",
       "source_sha256": "db4cfffe976993833e512669f4d537785aeb67b022d434ddcd0f3b89e4342dee",
       "copied_sha256": "a28f70f11a069edcdd5136e30a04a62b69c06dfb1eca26b5036adf9fa42d9f0d",

@@ -6,13 +6,13 @@ PKG_CONFIG ?= pkg-config
 BUILD_DIR ?= build
 RESOURCE_NAME := Republic of China Minguo Calendar
 COMMON_DIR := common
-COMMON_REVISION := a99ef676b0e43c7e645c81756e3fd38be0a54406
-COMMON_VERSION := 1.19.81
+COMMON_REVISION := e0b7720356874106efd524d91221b20fe166d4ac
+COMMON_VERSION := 1.19.83
 COMMON_BUILD_DIR := $(abspath $(BUILD_DIR))/common
 COMMON_ARCHIVE := $(COMMON_BUILD_DIR)/libinfiltratr-common.a
 DEPENDENCIES := glib-2.0 icu-i18n
 SOURCES := $(shell find src -type f -name '*.c' | LC_ALL=C sort)
-OBJECTS := $(patsubst src/%.c,$(BUILD_DIR)/obj/%.o,$(SOURCES))
+OBJECTS := $(patsubst src/%.c,$(BUILD_DIR)/obj/%.o,$(SOURCES)) $(BUILD_DIR)/obj/icu-compat-bridge.o
 TARGET := $(BUILD_DIR)/$(RESOURCE_NAME).so
 TARGET_STAMP := $(BUILD_DIR)/.provider-built
 ifneq ($(strip $(DEPENDENCIES)),)
@@ -42,6 +42,9 @@ $(COMMON_ARCHIVE): Makefile | common-check
 	@mkdir -p "$(COMMON_BUILD_DIR)"
 	$(MAKE) -C common CC="$(CC)" BUILD_DIR="$(COMMON_BUILD_DIR)" CFLAGS="$(CFLAGS) -Wno-missing-profile" all
 $(BUILD_DIR)/obj/%.o: src/%.c Makefile | common-check
+	@mkdir -p "$(@D)"
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEP_CFLAGS) -MMD -MP -c "$<" -o "$@"
+$(BUILD_DIR)/obj/icu-compat-bridge.o: $(COMMON_DIR)/calendar-tools/icu-compat-bridge.c Makefile | common-check
 	@mkdir -p "$(@D)"
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEP_CFLAGS) -MMD -MP -c "$<" -o "$@"
 .PHONY: all check audit-authorities clean
