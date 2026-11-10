@@ -1,0 +1,37 @@
+name: Archive and retire old work branches
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/retire-work-branches.yml'
+permissions:
+  contents: write
+jobs:
+  retire:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Preserve commits and delete redundant branch refs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS='|' read -r branch expected; do
+            [ -n "$branch" ] || continue
+            current="$(gh api "repos/$REPO/git/ref/heads/$branch" --jq '.object.sha' 2>/dev/null || true)"
+            if [ "$current" != "$expected" ]; then
+              if [ -n "$current" ]; then echo "::error::Branch changed: $branch"; exit 1; fi
+              continue
+            fi
+            tag="archive/branch-retirement-20261111/${branch//\//-}-${expected:0:12}"
+            archived="$(gh api --method POST "repos/$REPO/git/refs" -f ref="refs/tags/$tag" -f sha="$expected" --jq '.object.sha')"
+            if [ "$archived" != "$expected" ]; then echo "::error::Archive mismatch: $branch"; exit 1; fi
+            current="$(gh api "repos/$REPO/git/ref/heads/$branch" --jq '.object.sha' 2>/dev/null || true)"
+            if [ "$current" != "$expected" ]; then echo "::error::Branch moved: $branch"; exit 1; fi
+            gh api --method DELETE "repos/$REPO/git/refs/heads/$branch"
+            printf 'Archived and retired %s at %s\n' "$branch" "$expected"
+          done <<'RETIRE_BRANCHES'
+          hal/centralized-icu-bridge-20261110|e8338f09c1de8040a575906539856b3a6c8b3145
+          hal/simplify-build-and-fragility-20261110|0785a3cf7ff589f173729a9de7c72b82000fdd24
+          RETIRE_BRANCHES
