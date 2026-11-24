@@ -19,7 +19,7 @@ jobs:
       - name: Initialise pinned Common source
         run: git submodule update --init -- common
       - name: Install build prerequisites
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential binutils pkg-config libglib2.0-dev libicu-dev jq ghostscript zip gzip gettext
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential binutils pkg-config libglib2.0-dev libicu-dev jq ghostscript git gzip gettext
       - name: Build and qualify portable and native providers without Python
         shell: bash
         run: |
@@ -44,14 +44,13 @@ jobs:
           test -f "$so" && test -f "$pdf"
           test "$(head -c 5 "$pdf")" = '%PDF-'
           test "$(sha256sum "$so" | cut -d' ' -f1)" = "$(dpkg-query -W -f='${X-Infiltrator-Resource-SHA256}' "$package")"
-          assets=(dist/*.deb dist/*.run dist/*.zip)
-          test "${#assets[@]}" -eq 3
+          assets=(dist/*.deb dist/*.run)
+          test "${#assets[@]}" -eq 2
           jq -n \
             --arg commit "$GITHUB_SHA" --arg version "$version" --arg name "$resource_name" \
             --arg deb "$(basename "${assets[0]}")" --arg debsha "$(sha256sum "${assets[0]}" | cut -d' ' -f1)" \
             --arg run "$(basename "${assets[1]}")" --arg runsha "$(sha256sum "${assets[1]}" | cut -d' ' -f1)" \
-            --arg zip "$(basename "${assets[2]}")" --arg zipsha "$(sha256sum "${assets[2]}" | cut -d' ' -f1)" \
-            '{commit:$commit,version:$version,name:$name,assets:{($deb):$debsha,($run):$runsha,($zip):$zipsha}}' > dist/contract.json
+            '{commit:$commit,version:$version,name:$name,assets:{($deb):$debsha,($run):$runsha}}' > dist/contract.json
 
       - name: Verify portable and installed native packages contain exactly one SO and one PDF
         shell: bash
@@ -101,7 +100,7 @@ jobs:
         with:
           name: provider-qualified-${{ github.sha }}
           path: release
-      - name: Publish exactly the qualified three assets
+      - name: Publish exactly the qualified two assets
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}

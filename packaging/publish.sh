@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Publish only the three assets qualified and byte-verified by this commit.
+# Publish only the two assets qualified and byte-verified by this commit.
 set -euo pipefail
 contract=release/contract.json
 [[ -f $contract ]] || { echo 'Qualification contract missing' >&2; exit 1; }
@@ -8,7 +8,7 @@ commit=$(jq -er .commit "$contract")
 version=$(jq -er .version "$contract")
 name=$(jq -er .name "$contract")
 [[ $commit == "$GITHUB_SHA" ]] || { echo 'Release commit mismatch' >&2; exit 1; }
-[[ $(jq '.assets | length' "$contract") -eq 3 ]] || exit 1
+[[ $(jq '.assets | length' "$contract") -eq 2 ]] || exit 1
 mapfile -t assets < <(jq -r '.assets | keys[]' "$contract")
 for asset in "${assets[@]}"; do
   [[ $asset == "$(basename "$asset")" && -f release/$asset ]] || exit 1
@@ -18,7 +18,6 @@ for asset in "${assets[@]}"; do
 done
 [[ $(printf '%s\n' "${assets[@]}" | grep -Ec '\.deb$') -eq 1 ]] || exit 1
 [[ $(printf '%s\n' "${assets[@]}" | grep -Ec '\.run$') -eq 1 ]] || exit 1
-[[ $(printf '%s\n' "${assets[@]}" | grep -Ec '\.zip$') -eq 1 ]] || exit 1
 
 head=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq .object.sha)
 if [[ $head != "$commit" ]]; then
@@ -55,7 +54,7 @@ for asset in "${assets[@]}"; do paths+=("release/$asset"); done
 if [[ $state == missing ]]; then
   gh release create "$tag" "${paths[@]}" --target "$commit" --draft \
     --title "$name $version" \
-    --notes 'Portable amd64 Debian package, native installer and complete source ZIP. Each package installs this provider only.'
+    --notes 'Portable amd64 Debian package, lightweight native installer; GitHub supplies the automatic source archive. Each package installs this provider only.'
 elif [[ $state == draft ]]; then
   gh release upload "$tag" "${paths[@]}" --clobber
 fi
@@ -76,4 +75,4 @@ verify() {
 verify
 if [[ $state != published ]]; then gh release edit "$tag" --draft=false --latest; fi
 verify
-echo "Published and byte-verified $tag with exactly three assets."
+echo "Published and byte-verified $tag with exactly two assets."
