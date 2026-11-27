@@ -1,13 +1,8 @@
 {
   "title": "Republic of China Minguo Calendar",
-  "intro": "The Minguo or Republic of China calendar uses ordinary Gregorian months and days but numbers years from the founding of the Republic of China.",
-  "summary": "Twelve Gregorian months; 1912 is Minguo year 1. The year 2026 is Minguo year 115.",
-  "origin": "Republic of China era numbering begins in 1912. The convention is particularly familiar on dates and official records in Taiwan.",
-  "ring_label": "12",
-  "ring_caption": "MONTHS",
-  "diagram_title": "THE YEAR WITH A NEW NUMBER",
-  "structure": "Month lengths and leap-day rules are the same as in the Gregorian calendar. Only the year label changes.",
-  "diagram_caption": "12 GREGORIAN MONTHS / MINGUO ERA NUMBER",
+  "intro": "The Republic of China (Minguo) calendar applies a national era-year label to Gregorian civil dates.",
+  "epoch": "Gregorian 1912 is Minguo year 1, following the founding of the Republic of China.",
+  "structure": "Gregorian month names, lengths, leap days and weekday order remain unchanged.",
   "sections": [
     {
       "name": "Jan",
@@ -70,9 +65,12 @@
       "special": false
     }
   ],
-  "pattern_note": "A Minguo year can be found by subtracting 1911 from a Gregorian year for dates from 1912 onward.",
-  "history": "The Republic of China established a new national era count in 1912. Both Gregorian and Minguo labels may be encountered in records from Taiwan.",
-  "example": "15 June 2026 in Gregorian notation is 15 June Minguo 115. The month, day and weekday are unchanged.",
-  "limits": "This is era-year notation, not a separate lunar month system. Retrospective labels for years before the Republic should not be mistaken for historical official dates.",
-  "source": "https://github.com/Infiltrator-Projects/Calendar-Minguo"
+  "model": "For Gregorian dates from 1912 onward, Minguo year = Gregorian year - 1911. The date coordinate and navigation remain Gregorian-derived.",
+  "example": "15 June 2026 is 15 June Minguo 115; the weekday is the same in both notations.",
+  "history": "Minguo era numbering is particularly familiar in official and other records in Taiwan, where Gregorian labels may also be encountered.",
+  "limits": "Not a lunar calendar. Retrospective era labels must not be taken as evidence of official use before the Republic.",
+  "sources": [
+    "https://github.com/Infiltrator-Projects/Calendar-Minguo",
+    "Model evidence: https://github.com/Infiltrator-Projects/Calendar-Minguo/blob/main/docs/MODEL.md"
+  ]
 }
